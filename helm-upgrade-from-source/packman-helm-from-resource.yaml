@@ -1,0 +1,43 @@
+
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: run-packman-pipeline-from-resource
+spec:
+  serviceAccountName: helm-pipeline-run-sa
+  pipelineRef:  
+    name: helm-upgrade-from-source-pipeline
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+    dnsConfig:
+      nameservers:
+        - <internalIP>
+        - 8.8.8.8
+        - 1.1.1.1
+      options:
+        - name: ndots
+          value: "4"
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  params:
+  # repository to clone
+  - name: repo-url
+    value: https://github.com/AustrianDataLAB/pacman
+  
+  # task helm-upgrade-from-source
+  - name: charts_dir
+    value: helm
+  - name: release_version
+    value: 0.1.0
+  - name: release_name
+    value: pacman-rancher
+  - name: release_namespace
+    value: tekton-demo

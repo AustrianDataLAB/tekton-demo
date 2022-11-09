@@ -1,0 +1,55 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: helm-upgrade-from-source-pipeline
+spec:
+  description: |
+    This pipeline clones a git repo, upgrade and deploys helm chart from the cloned repo.
+  params:
+  # git-clone
+  - name: repo-url
+    type: string
+    description: Repository URL to clone from. (required)
+  # helm-upgrade-from-source
+  - name: charts_dir
+    type: string
+    description: The directory in the source repository where the installable chart should be found.
+  - name: release_version
+    type: string
+    description: The version of the release.
+  - name: release_namespace
+    type: string
+    description: The namespace in which the release is to be installed.
+  - name: release_name
+    type: string
+    description: The name of the release.
+  workspaces:
+  - name: shared-data
+  tasks:
+  # git-clone
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+  # task helm-upgrade-from-source
+  - name: helm-upgrade-deploy
+    runAfter: ["fetch-source"]
+    taskRef:
+      name: helm-upgrade-from-source
+    workspaces:
+    - name: source
+      workspace: shared-data
+    params:
+    - name: charts_dir
+      value: $(params.charts_dir)
+    - name: release_version
+      value: $(params.release_version)
+    - name: release_name
+      value: $(params.release_name)
+    - name: release_namespace
+      value: $(params.release_namespace)
