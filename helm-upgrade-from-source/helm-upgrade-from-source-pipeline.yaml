@@ -5,7 +5,7 @@ metadata:
 spec:
   description: |
     This pipeline clones a git repo, upgrade and deploys helm chart from the cloned repo.
-  params:
+  params:   # these parms will require an input from the PipelineRun
   # git-clone
   - name: repo-url
     type: string
@@ -44,7 +44,7 @@ spec:
     workspaces:
     - name: source
       workspace: shared-data
-    params:
+    params: # These params can be directly added without asking an input from PipelineRun e.g helm_image
     - name: charts_dir
       value: $(params.charts_dir)
     - name: release_version
@@ -53,3 +53,5 @@ spec:
       value: $(params.release_name)
     - name: release_namespace
       value: $(params.release_namespace)
+    # - name: helm_image    # this will override the helm image
+    #   value: "mbwali/helm-rootless:latest"

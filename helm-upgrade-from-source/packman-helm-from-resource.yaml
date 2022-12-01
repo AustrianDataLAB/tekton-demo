@@ -10,9 +10,11 @@ spec:
   podTemplate:
     securityContext:
       fsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 1000
     dnsConfig:
       nameservers:
-        - <internalIP>
+        - 10.43.0.10 # <internalIP>
         - 8.8.8.8
         - 1.1.1.1
       options:
