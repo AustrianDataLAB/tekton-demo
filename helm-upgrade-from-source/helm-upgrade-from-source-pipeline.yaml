@@ -37,7 +37,7 @@ spec:
     - name: url
       value: $(params.repo-url)
     # - name: revision    # if you want to clone from a diffrent branch
-    #   value: "patch-1"
+    #   value: "helm-update"
   # task helm-upgrade-from-source
   - name: helm-upgrade-deploy
     runAfter: ["fetch-source"]
@@ -55,5 +55,7 @@ spec:
       value: $(params.release_name)
     - name: release_namespace
       value: $(params.release_namespace)
-    # - name: helm_image    # this will override the helm image
-    #   value: "mbwali/helm-rootless:latest"
+    - name: helm_image    # this will override the helm image
+      value: "mbwali/helm-rootless:latest"
+    # - name: overwrite_values
+    #   value: "securityContext.runAsNonRoot=true"

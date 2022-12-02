@@ -1,5 +1,5 @@
 # Helm Rootless docker image.
-# docker build -t mbwali/helm-rootless:latest .
+# docker build -t mbwali/helm-rootless:latest -f Dockerfile_helm .
 # docker push mbwali/helm-rootless:latest
 
 FROM alpine
@@ -28,7 +28,7 @@ RUN apk add --update ca-certificates \
  && rm /var/cache/apk/* \
  && rm -f /helm-${HELM_LATEST_VERSION}-linux-${TARGETARCH}.tar.gz
 
-USER helm
+USER 1000
 
 
 ENTRYPOINT ["helm"]

@@ -1,0 +1,11 @@
+# docker build -t mbwali/busybox:rootless -f Dockerfile_busybox .
+
+FROM busybox
+
+# Create a group and user
+RUN addgroup -g 1000 busybox && \
+    adduser -u 1000 -G busybox -h /home/busybox -D helm
+
+USER busybox
+
+CMD ["sh"]
