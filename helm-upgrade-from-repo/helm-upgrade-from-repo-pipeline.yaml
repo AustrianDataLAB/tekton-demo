@@ -1,15 +1,11 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: helm-upgrade-from-repo-pipeline
+  name: helm-upgrade-from-repo-pipeline-alone
 spec:
   description: |
     This pipeline upgrade and deploys helm chart.
   params:
-  # git-clone
-  - name: repo-url
-    type: string
-    description: Repository URL to clone from. (required)
   # helm-upgrade-from-repo
   - name: helm_repo
     type: string
@@ -26,34 +22,24 @@ spec:
   - name: release_name
     type: string
     description: The name of the release (default helm-release)
-  - name: overwrite_values
-    type: string
-    description: The values to be overwritten (default "")
-  - name: helm_image
-    type: string
-    description: The helm image which should be used (default lachlanevenson/k8s-helm:v3.5.0)
+  # - name: overwrite_values
+  #   type: string
+  #   description: The values to be overwritten (default "")
+  # - name: helm_image
+  #   type: string
+  #   description: The helm image which should be used (default lachlanevenson/k8s-helm:v3.5.0)
 
-  workspaces:
-  - name: shared-data
+  # workspaces:
+  # - name: shared-data
   tasks:
-  # git-clone
-  - name: fetch-repository
-    taskRef:
-      name: git-clone
-    workspaces:
-    - name: output
-      workspace: shared-data
-    params:
-    - name: url
-      value: $(params.repo-url)
   # task helm-upgrade-from-repo
   - name: helm-upgrade-deploy
-    runAfter: ["fetch-repository"]
+    # runAfter: ["fetch-repository"]
     taskRef:
       name: helm-upgrade-from-repo
-    workspaces:
-    - name: source
-      workspace: shared-data
+    # workspaces:
+    # - name: source
+    #   workspace: shared-data
     params:
     - name: helm_repo
       value: $(params.helm_repo)
@@ -65,7 +51,7 @@ spec:
       value: $(params.release_namespace)
     - name: release_name
       value: $(params.release_name)
-    - name: overwrite_values
-      value: $(params.overwrite_values)
-    - name: helm_image
-      value: $(params.helm_image)
+    # - name: overwrite_values
+    #   value: $(params.overwrite_values)
+    # - name: helm_image
+    #   value: $(params.helm_image)
