@@ -12,14 +12,14 @@ spec:
       # fsGroup: 65532
       runAsNonRoot: true
       # runAsUser: 1000
-    dnsConfig:
-      nameservers:
-        - 10.43.0.10 # <internalIP>
-        - 8.8.8.8
-        - 1.1.1.1
-      options:
-        - name: ndots
-          value: "4"
+    # dnsConfig:
+    #   nameservers:
+    #     - 10.43.0.10 # <internalIP>
+    #     - 8.8.8.8
+    #     - 1.1.1.1
+    #   options:
+    #     - name: ndots
+    #       value: "4"
   workspaces:
   - name: shared-data
     volumeClaimTemplate:
@@ -32,7 +32,9 @@ spec:
   params:
   # repository to clone
   - name: repo-url
-    value: https://github.com/AustrianDataLAB/pacman
+    # value: https://github.com/AustrianDataLAB/pacman
+    value: https://github.com/mb-wali/pacman
+
   
   # task helm-upgrade-from-source
   - name: charts_dir
