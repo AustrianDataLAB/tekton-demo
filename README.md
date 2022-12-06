@@ -62,3 +62,12 @@ mongo	bitnami/mongodb:4.4.14
 Pods "mongo-858c84d959-" is forbidden: PodSecurityPolicy: unable to admit pod: [spec.initContainers[0].securityContext.runAsUser: Invalid value: 0: running with the root UID is forbidden]:Deployment does not have minimum availability.
 
 ```
+
+
+# Outcome
+## Pipelines
+
+1. Clone, build, Push image.
+2. Clone, package, and push helm to registry.
+3. Deploy the helm package from the registry.
+    * issue: override the values.yaml (tokinize) patch helm chart manifest.... put this in helm chart -- add or interpoliate
