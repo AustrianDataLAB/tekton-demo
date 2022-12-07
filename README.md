@@ -1,73 +1,29 @@
-# tekton-demo
+# Presequence
+Assuming your cluster already have tekton installed.
 
-
-## DEMO
-
-Clone, and deploy a helm chart from a public source files, to the ADLS cluster with the help of Tekton pipelines.
-
-### required tekton tasks
-
-* [git-clone](https://hub.tekton.dev/tekton/task/git-clone)
-* [helm-upgrade-from-source](https://hub.tekton.dev/tekton/task/helm-upgrade-from-source)
-
-### setup namespace
-
+**Run this config to override default configs for tekton pipelines.**
 ```bash
-# create namespace
-kubectl create ns tekton-demo
-
-# install git-clone task
-kubectl -n tekton-demo apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml
-
-# install helm-upgrade-from-source task
-kubectl -n tekton-demo apply -f  https://raw.githubusercontent.com/tektoncd/catalog/main/task/helm-upgrade-from-source/0.3/helm-upgrade-from-source.yaml
-
-# Add service account
-kubectl -n tekton-demo create serviceaccount helm-pipeline-run-sa
-
-# Add edit role to service account
-kubectl -n tekton-demo create rolebinding helm-pipeline-run-sa-edit --clusterrole edit --serviceaccount tekton-demo:helm-pipeline-run-sa 
+kubectl apply -f extra/config-defaults.yml
 ```
 
-### Apply created pipeline
+# Pipelines
+
+## CBP (Clone, Build & Push)
+[CBP](cpp) pipeline will clone a repository to a workspace, builds the docker image and push 
+this image to the desired registry.
+
+**Apply the pipeline**
 
 ```bash
-kubectl -n tekton-demo apply -f helm-upgrade-from-source/helm-upgrade-from-source-pipeline.yaml
+kubectl -n tekton-demo apply -f cbp/cbp-pipeline.yml
 ```
 
-### Run pipeline for pacman
+## CPP (Clone, Package & Push)
+[CPP](cpp) pipeline will clone a repository where a helm chart is located, packages the helm chart and push this package to the desired registry.
 
-```bash
-kubectl -n tekton-demo create -f helm-upgrade-from-source/packman-helm-from-resource.yaml
-```
+....
 
-#### forward the pacman port
+## Deploy helm package
+[deploy](deploy) pipline will deploy your helm package from the url you have specified.
 
-```bash
-sudo kubefwd svc -n tekton-demo
-```
-
-**VISIT**
-[http://pacman-rancher](http://pacman-rancher/)
-
-
-# Errors
-```bash
-pacman-rancher	adlsregistrysbx.azurecr.io/tutorials/pacman:latest		0	-	
-CreateContainerConfigError (container has runAsNonRoot and image will run as root (pod: "pacman-rancher-75d5cbc87f-rw2hn_tekton-demo(6fac4b02-9217-4c5c-b68e-22db305db726)", container: pacman-rancher))
-
-
-mongo	bitnami/mongodb:4.4.14
-0/1	0	0	0	7 mins	
-Pods "mongo-858c84d959-" is forbidden: PodSecurityPolicy: unable to admit pod: [spec.initContainers[0].securityContext.runAsUser: Invalid value: 0: running with the root UID is forbidden]:Deployment does not have minimum availability.
-
-```
-
-
-# Outcome
-## Pipelines
-
-1. Clone, build, Push image.
-2. Clone, package, and push helm to registry.
-3. Deploy the helm package from the registry.
-    * issue: override the values.yaml (tokinize) patch helm chart manifest.... put this in helm chart -- add or interpoliate
+....

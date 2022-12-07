@@ -9,6 +9,17 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-pipelines
 data:
+  # default-service-account: "tekton"
+  # default-task-run-workspace-binding: |
+  
+  #   volumeClaimTemplate:
+  #     spec:
+  #       accessModes:
+  #         - ReadWriteOnce
+  #       resources:
+  #         requests:
+  #           storage: 1Gi
+
   default-pod-template: |
     securityContext:
       fsGroup: 65532
