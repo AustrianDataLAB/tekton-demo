@@ -27,9 +27,9 @@ kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/ka
 
 #### error:
 
+* https://github.com/GoogleContainerTools/kaniko/issues/2146
 ```shell
 # step-build-and-push	
-
 container has runAsNonRoot and image will run as root
 gcr.io/kaniko-project/executor@sha256:c6166717f7fe0b7da44908c986137ecfeab21f31ec3992f6e128fff8a94be8a5
 
