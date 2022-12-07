@@ -27,7 +27,7 @@ spec:
   - name: build-push
     runAfter: ["fetch-source"]
     taskRef:
-      name: buildah #s2i
+      name: kaniko #buildah #s2i
     workspaces:
     - name: source
       workspace: shared-data
@@ -36,5 +36,5 @@ spec:
     params:
     - name: IMAGE
       value: $(params.image-reference)
-    - name: BUILDER_IMAGE
-      value: mbwali/builder:latest  # build from ../extra/Dockerfile_builder
+    # - name: BUILDER_IMAGE
+    #   value: mbwali/dind:latest #mbwali/builder:latest  # build from ../extra/Dockerfile_builder

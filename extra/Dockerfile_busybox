@@ -4,7 +4,7 @@ FROM busybox
 
 # Create a group and user
 RUN addgroup -g 1000 busybox && \
-    adduser -u 1000 -G busybox -h /home/busybox -D helm
+    adduser -u 1000 -G busybox -h /home/busybox -D busybox
 
 USER busybox
 
