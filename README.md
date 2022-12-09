@@ -27,3 +27,7 @@ kubectl -n tekton-demo apply -f cbp/cbp-pipeline.yml
 [deploy](deploy) pipline will deploy your helm package from the url you have specified.
 
 ....
+
+
+# TODO
+[Install and set up Tekton Triggers](https://tekton.dev/docs/installation/triggers/),
