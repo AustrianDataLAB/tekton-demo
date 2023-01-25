@@ -20,7 +20,7 @@ this image to the desired registry.
 kubectl -n tekton-demo apply -f cbp/cbp-pipeline.yml
 ```
 
-<del>
+</del>
 
 ## CPP (Clone, Package & Push)
 [CPP](cpp) pipeline will clone a repository where a helm chart is located, packages the helm chart and push this package to the desired registry.
