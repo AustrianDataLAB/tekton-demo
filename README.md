@@ -22,6 +22,7 @@ kubectl apply -f extra/config-defaults.yml
 [helm-upgrade-from-source](helm-upgrade-from-source) This Pipline will clone a repository where a helm chart source code is located, and deploy it to the cluster.
 
 ...
+
 <del> 
 
 ## CBP (Clone, Build & Push)
