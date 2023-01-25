@@ -36,8 +36,8 @@ spec:
     params: # These params can be directly added without asking an input from PipelineRun e.g revision
     - name: url
       value: $(params.repo-url)
-    - name: revision    # if you want to clone from a diffrent branch
-      value: "dev"
+    # - name: revision    # if you want to clone from a diffrent branch
+    #   value: "dev"
   # task helm-upgrade-from-source
   - name: helm-upgrade-deploy
     runAfter: ["fetch-source"]
