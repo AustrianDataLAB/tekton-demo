@@ -8,6 +8,19 @@ kubectl apply -f extra/config-defaults.yml
 
 # Pipelines
 
+## CPP (Clone, Package & Push)
+[CPP](cpp) pipeline will clone a repository where a helm chart is located, packages the helm chart and push this package to the desired registry.
+
+....
+
+## Deploy helm package
+[helm-upgrade-from-repo](helm-upgrade-from-repo) This Pipline will deploy your helm package from the url you have specified.
+
+
+## Clone & deploy helm chart
+[helm-upgrade-from-source](helm-upgrade-from-source) This Pipline will clone a repository where a helm chart source code is located, and deploy it to the cluster.
+
+
 <del> 
 
 ## CBP (Clone, Build & Push)
@@ -21,18 +34,6 @@ kubectl -n tekton-demo apply -f cbp/cbp-pipeline.yml
 ```
 
 </del>
-
-## CPP (Clone, Package & Push)
-[CPP](cpp) pipeline will clone a repository where a helm chart is located, packages the helm chart and push this package to the desired registry.
-
-....
-
-## Deploy helm package
-[helm-upgrade-from-repo](helm-upgrade-from-repo) This Pipline will deploy your helm package from the url you have specified.
-
-
-## Clone & deploy helm chart
-[helm-upgrade-from-source](helm-upgrade-from-source) This Pipline will clone a repository where a helm chart source code is located, and deploy it to the cluster.
 
 ...
 

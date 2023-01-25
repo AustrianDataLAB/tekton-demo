@@ -1,5 +1,5 @@
 # source: https://github.com/tektoncd/pipeline/blob/release-v0.14.x/config/config-defaults.yaml
-
+# TODO: https://github.com/tektoncd/pipeline/pull/2930
 apiVersion: v1
 kind: ConfigMap
 metadata:
