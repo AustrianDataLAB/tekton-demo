@@ -1,0 +1,16 @@
+# docker build -t mbwali/bash-git:rootless -f Dockerfile_bash-git .
+
+FROM bash
+
+# Create a group and user
+RUN addgroup -g 1000 bashuser && \
+    adduser -u 1000 -G bashuser -h /home/bashuser -D bashuser
+
+RUN apk add git
+
+USER 1000
+
+
+
+
+CMD ["bash"]
