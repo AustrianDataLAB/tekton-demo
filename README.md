@@ -8,18 +8,18 @@ kubectl apply -f extra/config-defaults.yml
 
 # Pipelines
 
-## CPP (Clone, Package & Push)
-[CPP](cpp) Pipeline will **clone** a repository where a helm chart is located, **packages** the helm chart and **push** this package to the desired **registry**.
+## CPPC (Clone, Package & Push Helm charts)
+[CPPC](cppc) Pipeline will **clone** a repository where a helm chart is located, **packages** the helm chart and **push** to the desired **registry**.
 
 ...
 
-## Deploy helm package
+## Install Helm chart from URL
 [helm-upgrade-from-repo](helm-upgrade-from-repo) Pipeline will **deploy your helm package from repo url**.
 
 ...
 
-## Clone & deploy helm chart
-[helm-upgrade-from-source](helm-upgrade-from-source) This Pipline will clone a repository where a helm chart source code is located, and deploy it to the cluster.
+## Clone & install Helm chart
+[helm-upgrade-from-source](helm-upgrade-from-source) Pipeline will clone a repository where a Helm chart source code is located, and install it to the cluster.
 
 ...
 
