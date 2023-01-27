@@ -25,8 +25,8 @@ kubectl apply -f extra/config-defaults.yml
 
 <del> 
 
-## CBP (Clone, Build & Push)
-[CBP](cpp) pipeline will clone a repository to a workspace, builds the docker image and push 
+## CBP (Clone, Build & Push docker images)
+[CBP](cbp) pipeline will clone a repository to a workspace, builds the docker image and push 
 this image to the desired registry.
 
 **Apply the pipeline**
