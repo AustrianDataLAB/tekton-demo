@@ -22,22 +22,3 @@ kubectl apply -f extra/config-defaults.yml
 [helm-upgrade-from-source](helm-upgrade-from-source/README.md) Pipeline will clone a repository where a Helm chart source code is located, and install it to the cluster.
 
 ...
-
-<del> 
-
-## CBP (Clone, Build & Push docker images)
-[CBP](cbp) pipeline will clone a repository to a workspace, builds the docker image and push 
-this image to the desired registry.
-
-**Apply the pipeline**
-
-```bash
-kubectl -n tekton-demo apply -f cbp/cbp-pipeline.yml
-```
-
-</del>
-
-...
-
-# TODO
-[Install and set up Tekton Triggers](https://tekton.dev/docs/installation/triggers/),
