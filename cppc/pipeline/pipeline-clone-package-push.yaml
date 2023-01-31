@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: clone-package-push
+spec:
+  description: |
+    This pipeline clones a git repo, package a helm chart and
+    pushes it to a registry
+  params:
+  - name: REPO_URL
+    type: string
+    description: Repository URL to clone from - (required).
+  - name: CHART_NAME
+    type: string
+    description: Name of the Chart - (required).
+  - name: RELEASE_VERSION
+    description: Release version e.g. 0.0.1 - (required)
+  - name: CHART_DIR
+    description: "The directory in the source repository where the installable chart should be found - (required)"
+    default: ""
+  - name: HELM_SECRET_NAME
+    description: "The name of secret which contains basic auth keys for the registry - (required)."
+    type: string
+    default: harbor-helm-public
+  - name: CHART_DESTINATION
+    description: "Destination URL for chart, default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org"
+    type: string
+    default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org
+
+  tasks:
+  - name: build-push
+    taskRef:
+      name: helm-package-from-repo
+
+    params:
+    - name: REPO_URL
+      value: $(params.REPO_URL)
+    - name: CHART_NAME
+      value: $(params.CHART_NAME)
+    - name: RELEASE_VERSION
+      value: $(params.RELEASE_VERSION)
+    - name: CHART_DESTINATION
+      value: $(params.CHART_DESTINATION)
+    - name: CHART_DIR
+      value: $(params.CHART_DIR)
+    - name: HELM_SECRET_NAME
+      value: $(params.HELM_SECRET_NAME)

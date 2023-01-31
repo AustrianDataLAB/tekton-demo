@@ -1,0 +1,82 @@
+# This Task will do a helm package based on the given helm repo and chart
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: helm-package-from-repo
+spec:
+  description: >-
+    These tasks will package / push a helm chart to a registry.
+
+  params:
+    - name: HELM_IMAGE
+      description: "Helm image that has cm-push plugin."
+      default: "mbwali/helm-rootless:latest"
+    - name: REPO_URL
+      type: string
+      description: Repository URL to clone from. (required)
+    - name: CHART_NAME
+      description: "Name of the Chart (required)."
+    - name: PACKAGE
+      description: "Package before push?"
+      default: "true"
+    - name: CHART_DESTINATION
+      description: "Destination URL for chart, e.g.: https://myregistry/chartrepo/public (required)."
+    - name: RELEASE_VERSION
+      description: "Release version e.g. (0.0.1)."
+      default: 0.0.1
+    - name: CHART_DIR
+      description: "The directory in the source repository where the installable chart should be found."
+      default: ""
+    - name: HELM_SECRET_NAME
+      description: "The name of secret which contains basic auth keys for the registry. (Required)."
+  workspaces:
+  - name: source
+    description: Holds the cloned helm chart repository.
+  steps:
+    - name: clone
+      workingDir: $(workspaces.source.path)
+      image: mbwali/bash-git:rootless
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 1000
+      script: |
+        echo -e "\033[1;33m Cloning $(params.REPO_URL) ...  \e[0m"
+        git clone --progress $(params.REPO_URL) --single-branch .
+        echo -e "\033[1;33m Successfully cloned to . \e[0m"
+    - name: package-push
+      workingDir: $(workspaces.source.path)
+      image: $(params.HELM_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 1000
+      env:
+      - name: HELM_USERNAME              
+        valueFrom:
+          secretKeyRef:
+            name: $(params.HELM_SECRET_NAME)
+            key: username
+      - name: HELM_PASSWORD             
+        valueFrom:
+          secretKeyRef:
+            name: $(params.HELM_SECRET_NAME)
+            key: password
+      script: |
+        echo "MY location." $PWD
+        if [ $(params.PACKAGE) == "true" ]
+        then
+          if [[ $(params.CHART_DIR) ]]
+          then
+            echo "Chart directory is avalible." $(params.CHART_DIR)
+            echo -e "\033[1;33m Packaging...  \e[0m"
+            helm package --version=$(params.RELEASE_VERSION) $(params.CHART_DIR)
+            echo -e "\033[1;33m Chart Successfully packaged...  \e[0m"
+          else
+            echo "Chart directory is Not avalible."
+            helm package --version=$(params.RELEASE_VERSION) charts
+          fi
+          echo "The package zip file can be found on current directory..."
+        fi
+        echo -e "\033[1;33m Pushing package $(params.CHART_NAME)-$(params.RELEASE_VERSION).tgz to $(params.CHART_DESTINATION) \e[0m"
+        helm repo add harbor $(params.CHART_DESTINATION) --username=$HELM_USERNAME --password=$HELM_PASSWORD
+        helm cm-push $(params.CHART_NAME)-$(params.RELEASE_VERSION).tgz harbor
+        echo -e "\033[1;33m Successfully pushed chart to $(params.CHART_DESTINATION)... \e[0m"

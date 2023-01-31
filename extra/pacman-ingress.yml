@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+    # nginx.ingress.kubernetes.io/auth-url: "https://oauth.#{DNSA}#.#{ENV}#.#{TLD}#/oauth2/auth"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://oauth.#{DNSA}#.#{ENV}#.#{TLD}#/oauth2/start?rd=https://$host$request_uri"
+  name: pacman-rancher-ingress
+  namespace: tekton-demo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: pacman.caas-0015.dev.austrianopencloudcommunity.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: pacman-rancher
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - pacman.caas-0015.dev.austrianopencloudcommunity.org
+    secretName: keptn-ingress-tls

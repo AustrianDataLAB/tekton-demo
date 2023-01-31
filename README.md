@@ -1,51 +1,24 @@
-# tekton-demo
+# Presequence
+Assuming your cluster already have tekton installed.
 
-
-## DEMO
-
-Clone, and deploy a helm chart from a public source files, to the ADLS cluster with the help of Tekton pipelines.
-
-### required tekton tasks
-
-* [git-clone](https://hub.tekton.dev/tekton/task/git-clone)
-* [helm-upgrade-from-source](https://hub.tekton.dev/tekton/task/helm-upgrade-from-source)
-
-### setup namespace
-
+**Run this config to override default configs for tekton pipelines.**
 ```bash
-# create namespace
-kubectl create ns tekton-demo
-
-# install git-clone task
-kubectl -n tekton-demo apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml -n tekton-demo
-
-# install helm-upgrade-from-source task
-kubectl -n tekton-demo apply -f  https://raw.githubusercontent.com/tektoncd/catalog/main/task/helm-upgrade-from-source/0.3/helm-upgrade-from-source.yaml
-
-# Add service account
-kubectl -n tekton-demo create serviceaccount helm-pipeline-run-sa
-
-# Add edit role to service account
-kubectl -n tekton-demo create rolebinding helm-pipeline-run-sa-edit --clusterrole edit --serviceaccount tekton-demo:helm-pipeline-run-sa 
+kubectl apply -f extra/config-defaults.yml
 ```
 
-### Apply created pipeline
+# Pipelines
 
-```bash
-kubectl -n tekton-demo apply -f helm-upgrade-from-source/helm-upgrade-from-source-pipeline.yaml
-```
+## CPPC (Clone, Package & Push Helm charts)
+[CPPC](cppc/README.md) Pipeline will **clone** a repository where a helm chart is located, **packages** the helm chart and **push** to the desired **registry**.
 
-### Run pipeline for pacman
+...
 
-```bash
-kubectl -n tekton-demo create -f helm-upgrade-from-source/packman-helm-from-resource.yaml
-```
+## Install Helm chart from URL
+[helm-upgrade-from-repo](helm-upgrade-from-repo/README.md) Pipeline will **deploy your helm package from repo url**.
 
-#### forward the pacman port
+...
 
-```bash
-sudo kubefwd svc -n tekton-demo
-```
+## Clone & install Helm chart
+[helm-upgrade-from-source](helm-upgrade-from-source/README.md) Pipeline will clone a repository where a Helm chart source code is located, and install it to the cluster.
 
-**VISIT**
-[http://pacman-rancher](http://pacman-rancher/)
+...

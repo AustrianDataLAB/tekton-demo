@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: helm-upgrade-from-repo-pipeline-alone
+spec:
+  description: |
+    This pipeline upgrade and deploys helm chart.
+  params:
+  # helm-upgrade-from-repo
+  - name: helm_repo
+    type: string
+    description: Helm repo URL. (required)
+  - name: chart_name
+    type: string
+    description: The directory in the source repository where the installable chart should be found.
+  - name: release_version
+    type: string
+    description: The version of the release. (default v1.0.0)
+  - name: release_namespace
+    type: string
+    description: The namespace in which the release is to be installed. (default "")
+  - name: release_name
+    type: string
+    description: The name of the release (default helm-release)
+  # - name: overwrite_values
+  #   type: string
+  #   description: The values to be overwritten (default "")
+  # - name: helm_image
+  #   type: string
+  #   description: The helm image which should be used (default lachlanevenson/k8s-helm:v3.5.0)
+
+  # workspaces:
+  # - name: shared-data
+  tasks:
+  # task helm-upgrade-from-repo
+  - name: helm-upgrade-deploy
+    # runAfter: ["fetch-repository"]
+    taskRef:
+      name: helm-upgrade-from-repo
+    # workspaces:
+    # - name: source
+    #   workspace: shared-data
+    params:
+    - name: helm_repo
+      value: $(params.helm_repo)
+    - name: chart_name
+      value: $(params.chart_name)
+    - name: release_version
+      value: $(params.release_version)
+    - name: release_namespace
+      value: $(params.release_namespace)
+    - name: release_name
+      value: $(params.release_name)
+    # - name: overwrite_values
+    #   value: $(params.overwrite_values)
+    # - name: helm_image
+    #   value: $(params.helm_image)

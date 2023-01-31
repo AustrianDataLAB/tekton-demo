@@ -9,15 +9,7 @@ spec:
     name: helm-upgrade-from-source-pipeline
   podTemplate:
     securityContext:
-      fsGroup: 65532
-    dnsConfig:
-      nameservers:
-        - <internalIP>
-        - 8.8.8.8
-        - 1.1.1.1
-      options:
-        - name: ndots
-          value: "4"
+      runAsNonRoot: true
   workspaces:
   - name: shared-data
     volumeClaimTemplate:
@@ -30,11 +22,13 @@ spec:
   params:
   # repository to clone
   - name: repo-url
+    # value: https://github.com/AustrianDataLAB/pacman
     value: https://github.com/AustrianDataLAB/pacman
+
   
   # task helm-upgrade-from-source
   - name: charts_dir
-    value: helm
+    value: charts/pacman-rancher
   - name: release_version
     value: 0.1.0
   - name: release_name

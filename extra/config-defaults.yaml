@@ -1,0 +1,25 @@
+# source: https://github.com/tektoncd/pipeline/blob/release-v0.14.x/config/config-defaults.yaml
+# TODO: https://github.com/tektoncd/pipeline/pull/2930
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-defaults
+  namespace: tekton-pipelines
+  labels:
+    app.kubernetes.io/instance: default
+    app.kubernetes.io/part-of: tekton-pipelines
+data:
+  default-task-run-workspace-binding: |
+    emptyDir: {}
+
+  default-pod-template: |
+    securityContext:
+      fsGroup: 65532
+    dnsConfig:
+      nameservers:
+        - 10.43.0.10
+        - 8.8.8.8
+        - 1.1.1.1
+      options:
+        - name: ndots
+          value: "4"
