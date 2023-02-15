@@ -1,6 +1,8 @@
 # [helm-upgrade-from-repo](https://hub.tekton.dev/tekton/task/helm-upgrade-from-repo)
 These tasks will install / upgrade a helm chart into your Kubernetes giving only a helm repo URL.
 
+**NOTE:** `helm_repo` must be publicly accessable.
+
 ## Preq
 
 ### install task
@@ -28,11 +30,11 @@ kubectl -n tekton-demo create rolebinding tekton-helm-pipeline-sa-edit --cluster
 Used in the [tekton-dashboard](http://tekton-dashboard:9097/) 
 
 ```yaml
-helm_repo: https://austriandatalab.github.io/onetimesecret/
-chart_name: ots/ots
-release_version: 0.0.5
-release_name: ots
-release_namespace: tekton
+helm_repo: https://harbor.caas-0001.dev.austrianopencloudcommunity.org/chartrepo/external
+chart_name: pacman-rancher/pacman-rancher
+release_version: 0.0.1
+release_name: pacman-rancher
+release_namespace: tekton-demo
 ```
 
 ![dashboard](./params.png)

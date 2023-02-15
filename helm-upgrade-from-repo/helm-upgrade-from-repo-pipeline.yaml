@@ -5,12 +5,11 @@ metadata:
 spec:
   description: |
     This pipeline upgrade and deploys helm chart.
-  serviceAccountName: tekton-helm-pipeline-sa
   params:
   # helm-upgrade-from-repo
   - name: helm_repo
     type: string
-    description: Helm repo URL. (required)
+    description: Helm repository URL, where the chart. (required)
   - name: chart_name
     type: string
     description: The directory in the source repository where the installable chart should be found.
@@ -54,5 +53,5 @@ spec:
       value: $(params.release_name)
     # - name: overwrite_values
     #   value: $(params.overwrite_values)
-    # - name: helm_image
-    #   value: $(params.helm_image)
+    - name: helm_image    # this will override the helm image
+      value: "mbwali/helm-rootless:latest"
