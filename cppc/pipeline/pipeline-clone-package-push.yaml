@@ -19,13 +19,13 @@ spec:
     description: "The directory in the source repository where the installable chart should be found - (required)"
     default: ""
   - name: HELM_SECRET_NAME
-    description: "The name of secret which contains basic auth keys for the registry - (required)."
+    description: "The name of secret which contains basic auth keys for the registry - default: harbor-helm-externals"
     type: string
-    default: harbor-helm-public
+    default: harbor-helm-externals
   - name: CHART_DESTINATION
-    description: "Destination URL for chart, default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org"
+    description: "Destination URL for chart, default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org/chartrepo/external"
     type: string
-    default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org
+    default: https://harbor.caas-0001.dev.austrianopencloudcommunity.org/chartrepo/external
 
   tasks:
   - name: build-push

@@ -19,9 +19,9 @@ kubectl -n $NAMESPACE create secret generic <NAME_OF_SECRET> \
 * **HELM_IMAGE**: Helm image that has cm-push plugin (_default:_ `mbwali/helm-rootless`)
 * **REPO_URL**: Repository URL to clone from. (_required_)
 * **CHART_NAME**: Name of the Chart (_required_)
-* **CHART_DESTINATION**: Destination URL for chart, (_default:_ `https://harbor.caas-0001.dev.austrianopencloudcommunity.org`)
+* **CHART_DESTINATION**: Destination URL for chart, (_default:_ `https://harbor.caas-0001.dev.austrianopencloudcommunity.org/chartrepo/external`)
 * **CHART_DIR**: The directory in the source repository where the installable chart should be found. (_default:_ `""`)
-* **HELM_SECRET_NAME**: The name of secret which contains basic auth keys for the registry - (_required_)
+* **HELM_SECRET_NAME**: The name of secret which contains basic auth keys for the registry - (_default:_ `harbor-helm-externals`)
 
 ## Apply task
 

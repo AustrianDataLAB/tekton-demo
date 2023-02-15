@@ -5,6 +5,7 @@ metadata:
 spec:
   description: |
     This pipeline upgrade and deploys helm chart.
+  serviceAccountName: tekton-helm-pipeline-sa
   params:
   # helm-upgrade-from-repo
   - name: helm_repo
